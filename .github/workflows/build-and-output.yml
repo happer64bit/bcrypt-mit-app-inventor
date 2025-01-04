@@ -23,15 +23,18 @@ jobs:
       with:
         java-version: 8
         distribution: 'temurin'
-      
-    # Step 4: Install Rush CLI globally
+
+    # Step 3: Install Rush CLI
     - name: Install Rush CLI
       run: |
         curl https://raw.githubusercontent.com/shreyashsaitwal/rush-cli/main/scripts/install/install.sh -fsSL | sh
-    - name: Set path
-      run: |
-        export PATH="$PATH:/home/runner/.rush/bin"
 
+    # Step 4: Set PATH for the current shell session (this step is key to fixing the issue)
+    - name: Set PATH for Rush CLI
+      run: |
+        echo "/home/runner/.rush/bin" >> $GITHUB_PATH
+
+    # Step 5: Run Rush build
     - name: Run Rush build
       run: |
         rush build

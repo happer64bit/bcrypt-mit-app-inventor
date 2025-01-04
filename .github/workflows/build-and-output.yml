@@ -38,7 +38,10 @@ jobs:
       - name: Run Rush build
         run: |
           rush build
-
+      - name: LS
+        run: |
+          ls -la
+          
       - name: Upload bcrypt.aix artifact
         uses: actions/upload-artifact@v4
         with:

@@ -18,8 +18,5 @@ RUN curl https://raw.githubusercontent.com/shreyashsaitwal/rush-cli/main/scripts
 # Copy the current folder's contents into the container
 COPY . .
 
-# Install dependencies using rush
-RUN rush install
-
 # Default command to run `rush build`
 CMD ["rush", "build"]

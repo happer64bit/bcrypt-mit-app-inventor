@@ -1,41 +1,39 @@
-name: Build and Run Docker
+name: Build with Rush CLI
 
 on:
   push:
     branches:
-      - main  # Trigger this action on push to the main branch
+      - main  # Trigger on push to the main branch
   pull_request:
     branches:
-      - main  # Trigger this action on pull request to the main branch
+      - main  # Trigger on pull request targeting the main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
 
     steps:
-    # Check out the code
+    # Step 1: Checkout the repository
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    # Cache Docker layers to speed up build
-    - name: Cache Docker layers
-      uses: actions/cache@v2
+    # Step 2: Set up Java 8
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
       with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
+        java-version: '8'
 
-    # Build and push the Docker image
-    - name: Build Docker image
-      run: |
-        docker build -t rush-cli-java8 .
+    # Step 3: Set up Node.js 18
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
 
-    # Run the Docker container to execute rush build
-    - name: Run Docker container
+    # Step 4: Install Rush CLI globally
+    - name: Install Rush CLI
       run: |
-        docker run --rm -v "${{ github.workspace }}:/app" rush-cli-java8
+        curl https://raw.githubusercontent.com/shreyashsaitwal/rush-cli/main/scripts/install/install.sh -fsSL | sh
+
+    - name: Run Rush build
+      run: |
+        rush build

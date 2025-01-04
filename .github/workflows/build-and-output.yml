@@ -43,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bcrypt-artifact
-          path: $GITHUB_WORKSPACE/out/bcrypt.aix
+          path: out/bcrypt.aix

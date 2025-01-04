@@ -40,7 +40,7 @@ jobs:
           rush build
 
       - name: Upload bcrypt.aix artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: bcrypt-artifact
           path: $GITHUB_WORKSPACE/output/bcrypt.aix

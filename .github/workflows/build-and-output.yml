@@ -3,38 +3,44 @@ name: Build with Rush CLI
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main # Trigger on push to the main branch
   pull_request:
     branches:
-      - main  # Trigger on pull request targeting the main branch
+      - main # Trigger on pull request targeting the main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    # Step 2: Set up Java 8
-    - name: Set up JDK 8
-      uses: actions/setup-java@v4
-      with:
-        java-version: 8
-        distribution: 'temurin'
+      # Step 2: Set up Java 8
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: 8
+          distribution: "temurin"
 
-    # Step 3: Install Rush CLI
-    - name: Install Rush CLI
-      run: |
-        curl https://raw.githubusercontent.com/shreyashsaitwal/rush-cli/main/scripts/install/install.sh -fsSL | sh
+      # Step 3: Install Rush CLI
+      - name: Install Rush CLI
+        run: |
+          curl https://raw.githubusercontent.com/shreyashsaitwal/rush-cli/main/scripts/install/install.sh -fsSL | sh
 
-    # Step 4: Set PATH for the current shell session (this step is key to fixing the issue)
-    - name: Set PATH for Rush CLI
-      run: |
-        echo "/home/runner/.rush/bin" >> $GITHUB_PATH
+      # Step 4: Set PATH for the current shell session (this step is key to fixing the issue)
+      - name: Set PATH for Rush CLI
+        run: |
+          echo "/home/runner/.rush/bin" >> $GITHUB_PATH
 
-    # Step 5: Run Rush build
-    - name: Run Rush build
-      run: |
-        rush build
+      # Step 5: Run Rush build
+      - name: Run Rush build
+        run: |
+          rush build
+
+      - name: Upload bcrypt.aix artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bcrypt-artifact
+          path: $GITHUB_WORKSPACE/output/bcrypt.aix

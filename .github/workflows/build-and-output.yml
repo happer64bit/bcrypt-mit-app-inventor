@@ -23,17 +23,14 @@ jobs:
       with:
         java-version: 8
         distribution: 'temurin'
-
-    # Step 3: Set up Node.js 18
-    - name: Set up Node.js 18
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
-
+      
     # Step 4: Install Rush CLI globally
     - name: Install Rush CLI
       run: |
         curl https://raw.githubusercontent.com/shreyashsaitwal/rush-cli/main/scripts/install/install.sh -fsSL | sh
+    - name: Set path
+      run: |
+        export PATH="$PATH:/home/runner/.rush/bin"
 
     - name: Run Rush build
       run: |
